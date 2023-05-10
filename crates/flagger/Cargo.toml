@@ -1,0 +1,15 @@
+[package]
+description = "Enum flag generator"
+edition = "2021"
+keywords = ["flag", "enum"]
+license = "MIT"
+name = "flagger"
+readme = "README.md"
+repository = "https://github.com/rick-de-water/flagger"
+version = "0.1.0"
+
+[dependencies]
+flagger-macros = { path = "../flagger-macros" }
+
+[dev-dependencies]
+should = { workspace = true }

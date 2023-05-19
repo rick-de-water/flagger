@@ -81,7 +81,7 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
         })
         .map(|(ident, value)| {
             quote! {
-                const #ident: Self = Self(#value);
+                pub const #ident: Self = Self(#value);
             }
         })
         .collect();

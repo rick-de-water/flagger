@@ -1,7 +1,12 @@
 [package]
-name = "flagger-macros"
-version = "0.1.0"
+description = "Enum flag generator proc macros"
 edition = "2021"
+keywords = ["flag", "enum"]
+license = "MIT"
+name = "flagger-macros"
+readme = "README.md"
+repository = "https://github.com/rick-de-water/flagger"
+version = "0.1.0"
 
 [dependencies]
 syn = { workspace = true }

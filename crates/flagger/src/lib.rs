@@ -26,11 +26,13 @@ pub trait Flags:
 
 pub use flagger_macros::flags;
 
-#[flags(dfsdfds)]
+#[flags]
+#[derive(Debug)]
 enum TestEnum {
     First = 1,
     Second = 2,
     Third = 4,
+    //Fourth,
 
     FirstAndSecond = Self::First | Self::Second
 }
@@ -45,6 +47,12 @@ mod tests {
         Into::<u32>::into(TestEnum::First).should_be(1);
         Into::<u32>::into(TestEnum::Second).should_be(2);
         Into::<u32>::into(TestEnum::Third).should_be(4);
+        //Into::<u32>::into(TestEnum::Fourth).should_be(8);
         Into::<u32>::into(TestEnum::FirstAndSecond).should_be(3);
+    }
+
+    #[test]
+    fn works_with_derive_macros() {
+        println!("{:?}", TestEnum::First);
     }
 }

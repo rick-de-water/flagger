@@ -20,6 +20,8 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
         _ => panic!("Flags macro only works on enums")
     };
 
+    let attributes = ast.attrs;
+
     let mut unprocessed_flags = Vec::<(Ident, FlagValue)>::new();
     let mut processed_flags = HashMap::<Ident, FlagValue>::new();
 
@@ -98,6 +100,7 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
     quote! {
         #[derive(Clone, Copy, Eq, PartialEq)]
+        #(#attributes)*
         #visibility struct #name (#representation);
 
         impl Flags for #name {

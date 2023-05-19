@@ -44,6 +44,7 @@ mod tests {
     
     #[test]
     fn variants_exist() {
+        Into::<u32>::into(TestEnum::None).should_be(0);
         Into::<u32>::into(TestEnum::First).should_be(1);
         Into::<u32>::into(TestEnum::Second).should_be(2);
         Into::<u32>::into(TestEnum::Third).should_be(4);

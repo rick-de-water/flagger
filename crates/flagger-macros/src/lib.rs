@@ -103,6 +103,7 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
         #(#attributes)*
         #visibility struct #name (#representation);
 
+        #[allow(non_upper_case_globals)]
         impl Flags for #name {
             type Representation = #representation;
             const None: Self = Self(0);
@@ -117,6 +118,9 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
         #[allow(non_upper_case_globals)]
         impl #name {
+            pub const None: Self = Self(0);
+            pub const All: Self = Self(#representation::MAX);
+
             #(#variants)*
         }
 

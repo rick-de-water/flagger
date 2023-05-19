@@ -53,6 +53,30 @@ mod tests {
     }
 
     #[test]
+    fn can_test_for_flags() {
+        TestEnum::First.has_any_flag(TestEnum::First).should_be(true);
+        TestEnum::First.has_any_flag(TestEnum::Second).should_be(false);
+        TestEnum::First.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::First.has_all_flags(TestEnum::First).should_be(true);
+        TestEnum::First.has_all_flags(TestEnum::Second).should_be(false);
+        TestEnum::First.has_all_flags(TestEnum::FirstAndSecond).should_be(false);
+
+        TestEnum::Second.has_any_flag(TestEnum::First).should_be(false);
+        TestEnum::Second.has_any_flag(TestEnum::Second).should_be(true);
+        TestEnum::Second.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::Second.has_all_flags(TestEnum::First).should_be(false);
+        TestEnum::Second.has_all_flags(TestEnum::Second).should_be(true);
+        TestEnum::Second.has_all_flags(TestEnum::FirstAndSecond).should_be(false);
+
+        TestEnum::FirstAndSecond.has_any_flag(TestEnum::First).should_be(true);
+        TestEnum::FirstAndSecond.has_any_flag(TestEnum::Second).should_be(true);
+        TestEnum::FirstAndSecond.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::FirstAndSecond.has_all_flags(TestEnum::First).should_be(true);
+        TestEnum::FirstAndSecond.has_all_flags(TestEnum::Second).should_be(true);
+        TestEnum::FirstAndSecond.has_all_flags(TestEnum::FirstAndSecond).should_be(true);
+    }
+
+    #[test]
     fn works_with_derive_macros() {
         println!("{:?}", TestEnum::First);
     }

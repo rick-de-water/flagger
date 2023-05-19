@@ -122,6 +122,14 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
             pub const All: Self = Self(#representation::MAX);
 
             #(#variants)*
+
+            pub fn has_any_flag(&self, flags: Self) -> bool {
+                (self.0 & flags.0) != 0
+            }
+        
+            pub fn has_all_flags(&self, flags: Self) -> bool {
+                (self.0 & flags.0) == flags.0
+            }
         }
 
         impl std::ops::BitAnd for #name {

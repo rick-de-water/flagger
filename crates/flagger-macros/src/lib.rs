@@ -132,6 +132,12 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
             }
         }
 
+        impl std::default::Default for #name {
+            fn default() -> Self {
+                #name::None
+            }
+        }
+
         impl std::ops::BitAnd for #name {
             type Output = Self;
             fn bitand(self, rhs: Self) -> Self {

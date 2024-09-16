@@ -1,29 +1,3 @@
-#[allow(non_upper_case_globals)]
-pub trait Flags:
-    std::ops::BitAnd<Self, Output = Self> +
-    std::ops::BitAndAssign<Self> +
-    std::ops::BitOr<Self, Output = Self> +
-    std::ops::BitOrAssign<Self> +
-    std::ops::BitXor<Self, Output = Self> +
-    std::ops::BitXorAssign<Self> +
-    std::ops::Not<Output = Self> +
-    PartialEq + Eq +
-    Copy + Sized {
-
-    type Representation;
-    
-    const None: Self;
-    const All: Self;
-    
-    fn has_any_flag(&self, flags: Self) -> bool {
-        self.bitand(flags).ne(&Self::None)
-    }
-
-    fn has_all_flags(&self, flags: Self) -> bool {
-        self.bitand(flags).eq(&flags)
-    }
-}
-
 pub use flagger_macros::flags;
 
 #[flags]
@@ -54,26 +28,26 @@ mod tests {
 
     #[test]
     fn can_test_for_flags() {
-        TestEnum::First.has_any_flag(TestEnum::First).should_be(true);
-        TestEnum::First.has_any_flag(TestEnum::Second).should_be(false);
-        TestEnum::First.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
-        TestEnum::First.has_all_flags(TestEnum::First).should_be(true);
-        TestEnum::First.has_all_flags(TestEnum::Second).should_be(false);
-        TestEnum::First.has_all_flags(TestEnum::FirstAndSecond).should_be(false);
+        TestEnum::First.intersects(TestEnum::First).should_be(true);
+        TestEnum::First.intersects(TestEnum::Second).should_be(false);
+        TestEnum::First.intersects(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::First.contains(TestEnum::First).should_be(true);
+        TestEnum::First.contains(TestEnum::Second).should_be(false);
+        TestEnum::First.contains(TestEnum::FirstAndSecond).should_be(false);
 
-        TestEnum::Second.has_any_flag(TestEnum::First).should_be(false);
-        TestEnum::Second.has_any_flag(TestEnum::Second).should_be(true);
-        TestEnum::Second.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
-        TestEnum::Second.has_all_flags(TestEnum::First).should_be(false);
-        TestEnum::Second.has_all_flags(TestEnum::Second).should_be(true);
-        TestEnum::Second.has_all_flags(TestEnum::FirstAndSecond).should_be(false);
+        TestEnum::Second.intersects(TestEnum::First).should_be(false);
+        TestEnum::Second.intersects(TestEnum::Second).should_be(true);
+        TestEnum::Second.intersects(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::Second.contains(TestEnum::First).should_be(false);
+        TestEnum::Second.contains(TestEnum::Second).should_be(true);
+        TestEnum::Second.contains(TestEnum::FirstAndSecond).should_be(false);
 
-        TestEnum::FirstAndSecond.has_any_flag(TestEnum::First).should_be(true);
-        TestEnum::FirstAndSecond.has_any_flag(TestEnum::Second).should_be(true);
-        TestEnum::FirstAndSecond.has_any_flag(TestEnum::FirstAndSecond).should_be(true);
-        TestEnum::FirstAndSecond.has_all_flags(TestEnum::First).should_be(true);
-        TestEnum::FirstAndSecond.has_all_flags(TestEnum::Second).should_be(true);
-        TestEnum::FirstAndSecond.has_all_flags(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::FirstAndSecond.intersects(TestEnum::First).should_be(true);
+        TestEnum::FirstAndSecond.intersects(TestEnum::Second).should_be(true);
+        TestEnum::FirstAndSecond.intersects(TestEnum::FirstAndSecond).should_be(true);
+        TestEnum::FirstAndSecond.contains(TestEnum::First).should_be(true);
+        TestEnum::FirstAndSecond.contains(TestEnum::Second).should_be(true);
+        TestEnum::FirstAndSecond.contains(TestEnum::FirstAndSecond).should_be(true);
     }
 
     #[test]

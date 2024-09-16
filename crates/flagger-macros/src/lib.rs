@@ -1,6 +1,6 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
-use proc_macro::{TokenStream};
+use proc_macro::TokenStream;
 use syn::{DeriveInput, Fields, Expr, Ident, Lit, BinOp};
 use quote::*;
 
@@ -103,13 +103,6 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
         #(#attributes)*
         #visibility struct #name (#representation);
 
-        #[allow(non_upper_case_globals)]
-        impl Flags for #name {
-            type Representation = #representation;
-            const None: Self = Self(0);
-            const All: Self = Self(#representation::MAX);
-        }
-
         impl std::convert::From<#name> for #representation {
             fn from(value: #name) -> Self {
                 value.0
@@ -123,11 +116,11 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
 
             #(#variants)*
 
-            pub fn has_any_flag(&self, flags: Self) -> bool {
+            pub fn intersects(&self, flags: Self) -> bool {
                 (self.0 & flags.0) != 0
             }
         
-            pub fn has_all_flags(&self, flags: Self) -> bool {
+            pub fn contains(&self, flags: Self) -> bool {
                 (self.0 & flags.0) == flags.0
             }
         }
@@ -189,7 +182,7 @@ pub fn flags(_attr: TokenStream, item: TokenStream) -> TokenStream {
 fn process_discriminant(ident: &Ident, value: &FlagValue, processed_flags: &HashMap<Ident, FlagValue>) -> FlagValue {
     match value {
         FlagValue::Expr(expr) => {
-            match parse_discriminant(ident, expr, processed_flags){
+            match parse_discriminant(ident, expr, processed_flags) {
                 Some(value) => FlagValue::Value(value),
                 None => value.clone()
             }

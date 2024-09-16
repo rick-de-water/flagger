@@ -5,7 +5,7 @@ keywords = ["flag", "enum"]
 license = "MIT"
 name = "flagger-macros"
 repository = "https://github.com/rick-de-water/flagger"
-version = "0.6.0"
+version = "0.7.0"
 
 [dependencies]
 syn = { workspace = true }
